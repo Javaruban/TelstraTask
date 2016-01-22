@@ -32,6 +32,7 @@ public class ItemListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_list);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                                                      @Override
@@ -60,8 +61,9 @@ public class ItemListActivity extends AppCompatActivity {
                         Log.e("success Response", response);
                         ListItem.listItemsArray.clear();
                         JSONArray rowArray=null;
+                        JSONObject jsonObject=null;
                         try {
-                        JSONObject jsonObject = new JSONObject(response);
+                         jsonObject = new JSONObject(response);
                          rowArray= new JSONArray();
                             rowArray = jsonObject.getJSONArray("rows");
 
@@ -73,11 +75,12 @@ public class ItemListActivity extends AppCompatActivity {
                             ListItem listItem = new ListItem(title,desc,url);
                             ListItem.listItemsArray.add(listItem);
                          }//end for loop
-
+                            setTitle(jsonObject.getString("title"));
                         }//end try
                         catch (JSONException e){
 
                         }
+
                         itemListview.setAdapter(adapter);
                         mSwipeRefreshLayout.setRefreshing(false);
                         // notifying list adapter about data changes
