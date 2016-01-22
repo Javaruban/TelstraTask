@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Created by Ruban on 1/22/2016.
+ * Splash Screen Displaying App logo
+ */
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -17,9 +21,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
-        Intent i= new Intent(SplashActivity.this,ItemListActivity.class);
+        Intent i= new Intent(SplashActivity.this,ItemListActivity.class); // TODO: 1/22/2016 need to put 3 sec timer
         startActivity(i);
-
+        finish();
 
     }
 
