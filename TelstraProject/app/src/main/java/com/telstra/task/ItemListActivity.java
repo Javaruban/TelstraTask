@@ -2,6 +2,7 @@ package com.telstra.task;
 
 
 import android.app.LauncherActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,13 +25,23 @@ import org.json.JSONObject;
 
 public class ItemListActivity extends AppCompatActivity {
 
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private ListView itemListview;
     private ItemListAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_list);
-        itemListview=(ListView)findViewById(R.id.itemListview);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                                                     @Override
+                                                     public void onRefresh() {
+
+                                                         sendServerRequest();
+
+                                                     }
+                                                 });
+                itemListview = (ListView) findViewById(R.id.itemListview);
         adapter = new ItemListAdapter(this);
 
         sendServerRequest();
@@ -47,6 +58,7 @@ public class ItemListActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.e("success Response", response);
+                        ListItem.listItemsArray.clear();
                         JSONArray rowArray=null;
                         try {
                         JSONObject jsonObject = new JSONObject(response);
@@ -67,6 +79,7 @@ public class ItemListActivity extends AppCompatActivity {
 
                         }
                         itemListview.setAdapter(adapter);
+                        mSwipeRefreshLayout.setRefreshing(false);
                         // notifying list adapter about data changes
                         // so that it renders the list view with updated data
                         adapter.notifyDataSetChanged();
