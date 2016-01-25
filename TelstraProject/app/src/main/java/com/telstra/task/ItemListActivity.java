@@ -5,7 +5,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 
 import com.android.volley.Request;
@@ -33,12 +36,13 @@ public class ItemListActivity extends AppCompatActivity {
     SwipeRefreshLayout mSwipeRefreshLayout;
     private ListView itemListview;
     private ItemListAdapter adapter;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_list);
-
+        progressBar=(ProgressBar)findViewById(R.id.progressBar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -50,8 +54,12 @@ public class ItemListActivity extends AppCompatActivity {
         });
         itemListview = (ListView) findViewById(R.id.itemListview);
         adapter = new ItemListAdapter(this);
-        //request server
-        sendServerRequest();
+        //request server if Arraylist is empty
+        if(ListItem.listItemsArray.isEmpty()) {
+
+            progressBar.setVisibility(View.VISIBLE);
+            sendServerRequest();
+        }
 
     }
     /*
@@ -119,7 +127,7 @@ public class ItemListActivity extends AppCompatActivity {
      // notifying list adapter about data changes
      // so that it renders the list view with updated data
      adapter.notifyDataSetChanged();
-
+     progressBar.setVisibility(View.INVISIBLE);
  }
 
 }
