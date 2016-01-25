@@ -1,7 +1,11 @@
 package com.telstra.task.common;
 
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -65,4 +69,36 @@ public class ApplicationController extends Application {
             mRequestQueue.cancelAll(tag);
         }
     }
+
+
+    /**
+     * Checks for Internet connection
+     * // TODO: 1/25/2016 Later change to Broadcast receiver
+     *
+     */
+    public static boolean isConnectingToInternet(){
+        ConnectivityManager connectivity = (ConnectivityManager) mInstance.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null)
+        {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                    {
+                        return true;
+                    }
+
+        }
+        return false;
+    }
+
+
+    /**
+     * Show Toast alert to user
+     *
+     */
+    public static void displayToast(String msg){
+        Toast.makeText(mInstance.getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+    }
+
 }

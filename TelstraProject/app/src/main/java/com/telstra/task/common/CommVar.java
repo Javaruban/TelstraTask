@@ -15,4 +15,6 @@ public class CommVar {
     public static final String TITLE ="title";
     public static final String DESCRIPTION ="description";
     public static final String IMAGEHREF ="imageHref";
+
+    public static final String NO_INTERNET ="No internet connection";
 }

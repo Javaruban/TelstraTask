@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.telstra.task.adapter.ItemListAdapter;
+import com.telstra.task.common.ApplicationController;
 import com.telstra.task.common.CommVar;
 import com.telstra.task.model.ListItem;
 
@@ -42,24 +43,25 @@ public class ItemListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_list);
-        progressBar=(ProgressBar)findViewById(R.id.progressBar);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //request server every time user do pull to refresh
+        // TODO: 1/25/2016 Later change this to broad cast receiver.(So no need to check for Intenet every time)
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+            mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    //request server every time user do pull to refresh
+                    sendServerRequest();
+
+                }
+            });
+            itemListview = (ListView) findViewById(R.id.itemListview);
+            adapter = new ItemListAdapter(this);
+            //request server if Arraylist is empty
+            if (ListItem.listItemsArray.isEmpty()) {
+
+                progressBar.setVisibility(View.VISIBLE);
                 sendServerRequest();
-
             }
-        });
-        itemListview = (ListView) findViewById(R.id.itemListview);
-        adapter = new ItemListAdapter(this);
-        //request server if Arraylist is empty
-        if(ListItem.listItemsArray.isEmpty()) {
-
-            progressBar.setVisibility(View.VISIBLE);
-            sendServerRequest();
-        }
 
     }
     /*
@@ -68,6 +70,7 @@ public class ItemListActivity extends AppCompatActivity {
      */
     private void sendServerRequest(){
         // Instantiate the RequestQueue.
+        if(ApplicationController.isConnectingToInternet()){
         RequestQueue queue = Volley.newRequestQueue(this);
 
 
@@ -89,6 +92,12 @@ public class ItemListActivity extends AppCompatActivity {
         });
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
+        }
+        else{
+            ApplicationController.displayToast(CommVar.NO_INTERNET);
+            progressBar.setVisibility(View.INVISIBLE);
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
 
@@ -128,6 +137,7 @@ public class ItemListActivity extends AppCompatActivity {
      // so that it renders the list view with updated data
      adapter.notifyDataSetChanged();
      progressBar.setVisibility(View.INVISIBLE);
+
  }
 
 }
