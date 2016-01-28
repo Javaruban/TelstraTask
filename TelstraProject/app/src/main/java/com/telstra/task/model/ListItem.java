@@ -1,35 +1,54 @@
 package com.telstra.task.model;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Ruban on 1/22/2016.
- * This is a Model class for list item
+ * This is a Model class for list item Which connects to GSON
  */
-
-
 public class ListItem {
+
     String title;
     String description;
+    @SerializedName("imageHref")
     String imgUrl;
 
-    //constructor to assign values
+    /**
+     * empty constructor
+     */
+    public ListItem() {
+
+    }
+
+    /**
+     * constructor to assign values
+     */
     public ListItem(String title, String description, String imgUrl) {
         this.title = title;
         this.description = description;
         this.imgUrl = imgUrl;
     }
 
-    public String getTitle() {return title;}//return title
-    public String getDescription() {
-        return description;
-    }//return desc
-    public String getImgUrl() {
-        return imgUrl;
-    }//return umg url
+    /**
+     * @return title
+     */
+    public String getTitle() {
+        return title;//return title
+    }
 
-    //used to hold list item data
-    public static ArrayList<ListItem> listItemsArray=new ArrayList<ListItem>();
+    /**
+     * @return description
+     */
+    public String getDescription() {
+        return description;//return desc
+    }
+
+    /**
+     * @return image url
+     */
+    public String getImgUrl() {
+        return imgUrl;//return umg url
+    }
 
 
 

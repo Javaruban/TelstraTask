@@ -6,15 +6,18 @@ package com.telstra.task.common;
  */
 public class CommVar {
 
-// service url
-    public static final String url ="https://dl.dropboxusercontent.com/u/746330/facts.json";//// TODO: 1/22/2016 Need to protect this url
+     // service url
+    public static final String url ="https://dl.dropboxusercontent.com/u/746330/facts.json";
 
 
     //json tag names
     public static final String ROWS ="rows";
     public static final String TITLE ="title";
-    public static final String DESCRIPTION ="description";
-    public static final String IMAGEHREF ="imageHref";
-
+    //Alert Text
     public static final String NO_INTERNET ="No internet connection";
+    public static final String EMPTY_VALUES ="No Data";
+    public static final String INVALID_RESPONSE ="Invalid Server Response";
+    public static final String NO_RESPONSE ="No Response from the Server";
+
+
 }

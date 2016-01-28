@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -25,6 +24,9 @@ public class ApplicationController extends Application {
 
     private static ApplicationController mInstance;
 
+    /**
+     *   This method will be called only once when the application started
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -36,6 +38,9 @@ public class ApplicationController extends Application {
         return mInstance;
     }
 
+    /**
+     *   This method will return RequestQueue Object
+     */
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -44,6 +49,9 @@ public class ApplicationController extends Application {
         return mRequestQueue;
     }
 
+    /**
+     *  Initialising Image Loader by passing Object of RequestQueue and LruBitmap Cache
+     */
     public ImageLoader getImageLoader() {
         getRequestQueue();
         if (mImageLoader == null) {
@@ -53,17 +61,26 @@ public class ApplicationController extends Application {
         return this.mImageLoader;
     }
 
+    /**
+     *   Add the request to the RequestQueue with tag.
+     */
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         // set the default tag if tag is empty
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
         getRequestQueue().add(req);
     }
 
+    /**
+     * Add the request to the RequestQueue.
+     */
     public <T> void addToRequestQueue(Request<T> req) {
         req.setTag(TAG);
         getRequestQueue().add(req);
     }
 
+    /**
+     * Cancel pending request using tag
+     */
     public void cancelPendingRequests(Object tag) {
         if (mRequestQueue != null) {
             mRequestQueue.cancelAll(tag);
@@ -73,8 +90,6 @@ public class ApplicationController extends Application {
 
     /**
      * Checks for Internet connection
-     * // TODO: 1/25/2016 Later change to Broadcast receiver
-     *
      */
     public static boolean isConnectingToInternet(){
         ConnectivityManager connectivity = (ConnectivityManager) mInstance.getSystemService(Context.CONNECTIVITY_SERVICE);

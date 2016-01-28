@@ -3,7 +3,6 @@ package com.telstra.task;
         import android.test.ActivityInstrumentationTestCase2;
         import android.test.suitebuilder.annotation.SmallTest;
         import android.widget.ListView;
-        import android.app.Activity;
 
 /**
  * Created by Ruban on 1/22/2016.
@@ -28,8 +27,7 @@ package com.telstra.task;
         protected void setUp() throws Exception {
             super.setUp();
 
-            /** Getting the reference to the activity containing listview to be tested */
-            //mActivity = getActivity();
+            /** Getting the reference to the activity containing listview to be tested  mActivity = getActivity()*/
 
             /** Getting the reference to the activity to be tested */
             mListView = (ListView) mActivity.findViewById(R.id.itemListview);
